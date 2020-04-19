@@ -15,13 +15,7 @@ let kittens = [];
 function addKitten(event) {
   event.preventDefault();
   let form = event.target;
-  let kitten = {
-    id: generateId(),
-    name: form.name.value,
-    mood: "Tolerant",
-    affection: 5,
-    img: generateImageNum()
-  };
+  let kitten = generateKittenProperties(form);
   kittens.push(kitten);
   saveKittens();
   form.reset();
@@ -70,29 +64,6 @@ function loadKittens() {
  * Draw all of the kittens to the kittens element
  */
 
-function kittenIsGone(kitten) {
-  let template = ``;
-  if (kitten.mood == "Gone") {
-    template = `<div><span>Ran Away</span></div>
-                <div><button class="btn-cancel" onclick="removeKitten('${kitten.id}')">Remove</button></div>`;
-  } else {
-    template = `
-        <div>
-          <span>Mood:</span>
-          <span>${kitten.mood}</span>
-        </div>
-        <div>
-          <span>Affection:</span>
-          <span>${kitten.affection}</span>
-        </div>
-        <div>
-          <button class="btn-cancel" onclick="pet('${kitten.id}')">PET</button>
-          <button onclick="catnip('${kitten.id}')">CATNIP</button>
-        </div>`;
-  }
-  return template;
-}
-
 function drawKittens() {
   let template = "";
   let kittensElem = document.getElementById("kittens");
@@ -114,6 +85,29 @@ function drawKittens() {
     `;
   });
   kittensElem.innerHTML = template;
+}
+
+function kittenIsGone(kitten) {
+  let template = ``;
+  if (kitten.mood == "Gone") {
+    template = `<div><span>Ran Away</span></div>
+                <div><button class="btn-cancel" onclick="removeKitten('${kitten.id}')">Remove</button></div>`;
+  } else {
+    template = `
+        <div>
+          <span>Mood:</span>
+          <span>${kitten.mood}</span>
+        </div>
+        <div>
+          <span>Affection:</span>
+          <span>${kitten.affection}</span>
+        </div>
+        <div>
+          <button class="btn-cancel" onclick="pet('${kitten.id}')">PET</button>
+          <button onclick="catnip('${kitten.id}')">CATNIP</button>
+        </div>`;
+  }
+  return template;
 }
 
 /**
@@ -188,6 +182,18 @@ function getStarted() {
  * Defines the Properties of a Kitten
  * @typedef {{id: string, name: string, mood: string, affection: number}} Kitten
  */
+
+function generateKittenProperties(form) {
+  let kitten = {
+    id: generateId(),
+    name: form.name.value,
+    mood: "Tolerant",
+    affection: 5,
+    img: generateImageNum()
+  };
+
+  return kitten;
+}
 
 /**
  * Used to generate a random string id for mocked
