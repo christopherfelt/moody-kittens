@@ -15,9 +15,14 @@ let kittens = [];
 function addKitten(event) {
   event.preventDefault();
   let form = event.target;
-  let kitten = generateKittenProperties(form);
-  kittens.push(kitten);
-  saveKittens();
+  let nameUsed = checkForSameName(form);
+  if (!nameUsed) {
+    let kitten = generateKittenProperties(form);
+    if (kitten) {
+      kittens.push(kitten);
+    }
+    saveKittens();
+  }
   form.reset();
 }
 
@@ -28,7 +33,7 @@ function removeAllKittens() {
 }
 
 function removeKitten(id) {
-  let removedKittenIndex = kittens.findIndex(k => k.id == id);
+  let removedKittenIndex = kittens.findIndex((k) => k.id == id);
   kittens.splice(removedKittenIndex, 1);
   saveKittens();
 }
@@ -67,7 +72,7 @@ function loadKittens() {
 function drawKittens() {
   let template = "";
   let kittensElem = document.getElementById("kittens");
-  kittens.forEach(kitten => {
+  kittens.forEach((kitten) => {
     template += `
           <div class="container card bg-dark text-light kitten ${kitten.mood.toLowerCase()}">
               <img
@@ -116,7 +121,7 @@ function kittenIsGone(kitten) {
  * @return {Kitten}
  */
 function findKittenById(id) {
-  return kittens.find(k => k.id == id);
+  return kittens.find((k) => k.id == id);
 }
 
 /**
@@ -184,15 +189,26 @@ function getStarted() {
  */
 
 function generateKittenProperties(form) {
-  let kitten = {
+  let kitten;
+  kitten = {
     id: generateId(),
     name: form.name.value,
     mood: "Tolerant",
     affection: 5,
-    img: generateImageNum()
+    img: generateImageNum(),
   };
-
   return kitten;
+}
+
+function checkForSameName(form) {
+  let detectedSameName = false;
+  kittens.forEach((kitten) => {
+    if (kitten.name == form.name.value) {
+      alert("Cannot have a cat with the same name");
+      detectedSameName = true;
+    }
+  });
+  return detectedSameName;
 }
 
 /**
@@ -209,7 +225,13 @@ function generateId() {
 }
 
 function generateImageNum() {
-  return Math.ceil(Math.random() * 5);
+  let randomNumber = Math.ceil(Math.random() * 5);
+  console.log("There was a four");
+  // For some reason moodykitten4 returns a robot
+  if (randomNumber == 4) {
+    randomNumber++;
+  }
+  return randomNumber;
 }
 
 sumOfKittens();
