@@ -74,7 +74,7 @@ function drawKittens() {
   let kittensElem = document.getElementById("kittens");
   kittens.forEach((kitten) => {
     template += `
-          <div class="container card bg-dark text-light kitten ${kitten.mood.toLowerCase()}">
+          <div class="container card bg-dark text-light kitten mb-1 ${kitten.mood.toLowerCase()}">
               <img
                 class="img-size-1"
                 src="https://robohash.org/moodykittens${kitten.img}/?set=set4"
