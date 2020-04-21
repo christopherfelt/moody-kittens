@@ -204,7 +204,7 @@ function checkForSameName(form) {
   let detectedSameName = false;
   kittens.forEach((kitten) => {
     if (kitten.name == form.name.value) {
-      alert("Cannot have a cat with the same name");
+      alert("You can't have the same cat more than once");
       detectedSameName = true;
     }
   });
